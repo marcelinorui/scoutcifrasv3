@@ -1,0 +1,71 @@
+<div class="container" *ngIf='selectedOption'>
+  <div class="row">
+    <div class="col-md-3">
+      <label>Opção:</label>
+      <select (ngModelChange)='onOptionChange($event)' [ngModel]='selectedOption' name='option' class='form-control'>
+        <option *ngFor='let o of options' [ngValue]='o' >{{o.text}}</option>
+      </select>
+    </div>
+
+    <div class="col-md-6">
+      <label>Cifra: </label>
+      <select (ngModelChange)='onCifraChange($event)' [ngModel]='selectedCifra' name='cifra' class='form-control'>
+        <option *ngFor='let c of cifras' [ngValue]='c' >{{c.name}}</option>
+      </select>
+    </div>
+    <div class="col-md-1" *ngIf="hasHelp()">
+      <label>&nbsp;</label>
+      <button type="button" class="form-control btn btn-default" (click)='onShowHelp()'> <span class="glyphicon glyphicon-search"></span></button>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-3" *ngIf="hasPassword()">
+      <label>Password:</label>
+      <input type="text" class='form-control' (keyup)='onPasswordChange($event)' [ngModel]="passwordText">
+    </div>
+  </div>
+  <br />
+  <div class="row">
+    <div class="col-md-12">
+      <label>Texto a {{ labelTextToCypher }}:</label>
+      <textarea class='form-control' (input)='onTextToCypherChange($event)' [ngModel]="textToCypher" rows="4">{{textToCypher}}</textarea>
+    </div>
+  </div>
+  <br />
+  <div class="row">
+    <div class="col-md-12">
+      <label>Texto {{ labelCypheredText }}:</label>
+      <div class='' [innerHTML]='cypheredText'></div>
+    </div>
+  </div>
+  <div class="modal" tabindex="-1" role="dialog" [style.display]="showHelp ? 'block': 'none'">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" aria-label="Close" (click)='onHideHelp()'><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title">{{ cifraName }}</h4>
+        </div>
+          <div class="modal-body" [innerHTML]="cifraTemplate">
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" (click)='onHideHelp()'>Fechar</button>
+          </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+ <div [innerHTML]="GetDebugDic()">
+  <br>
+  <code>
+  {{ this.selectedOption | json }}
+  <br />
+  {{ this.passwordText | json }}
+  <br />
+  {{ this.textToCypher | json }}
+  <br />
+  {{ this.cypheredText | json }}
+  <br />
+  {{ this.showHelp | json }}
+  </code> 
+</div> 
